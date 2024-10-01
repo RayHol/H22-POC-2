@@ -217,11 +217,17 @@ function initializeAR() {
                         // Calculate distance and bearing
                         const distance = haversineDistance(userCoordinates.latitude, userCoordinates.longitude, targetLat, targetLon);
                         const bearing = calculateBearing(userCoordinates.latitude, userCoordinates.longitude, targetLat, targetLon);
-                        const { x, z } = toCartesianCoordinates(distance * 100, bearing); // Convert km to meters if needed
+
+                        // Adjust the bearing by adding 180 degrees to flip the orientation
+                        const adjustedBearing = bearing + 90; // Flip the bearing
+
+                        const { x, z } = toCartesianCoordinates(distance * 100, adjustedBearing); // Convert km to meters if needed
 
                         // Position the media based on calculated coordinates
                         const position = { x: x, y: commonValues.initialY || 0, z: z };
-                        const rotation = { x: 0, y: commonValues.fixedAngleDegrees || 0, z: 0 };
+                        
+                        // Set the rotation to ensure the image faces the camera
+                        const rotation = { x: 0, y: 0, z: 0 }; // Keep the rotation aligned with the camera
 
                         console.log(`Placing ${mediaItem.url} at position:`, position); // Log for debugging
                         displayMedia(mediaItem, 0, commonValues, position, rotation); // Use 0 for index as you are not tracking individual media
@@ -231,6 +237,8 @@ function initializeAR() {
         })
         .catch((error) => console.error("Error loading media config:", error));
 }
+
+
 
 
 
@@ -433,7 +441,6 @@ function initializeMedia(mediaArray, commonValues) {
 }
 
 // Function to display media
-// Function to display media
 function displayMedia(mediaItem, index, commonValues, currentPosition, currentRotation) {
     let scene = document.querySelector("a-scene");
 
@@ -442,13 +449,15 @@ function displayMedia(mediaItem, index, commonValues, currentPosition, currentRo
 
     // Set the media URL for the image
     entity.setAttribute("src", mediaItem.url);
-    entity.classList.add('clickable'); // Make it clickable
 
-    // Set the scale as defined in mediaConfig.json
+    // Add the 'clickable' class to make the image detectable by the raycaster
+    entity.classList.add('clickable');
+
+    // Set the scale exactly as defined in the mediaConfig.json
     let scaleComponents = commonValues.scale.split(' ').map(Number);
     entity.setAttribute("scale", `${scaleComponents[0]} ${scaleComponents[1]} ${scaleComponents[2]}`);
 
-    // Set the position and rotation of the entity
+    // Set the position and rotation of the entity based on the mediaConfig.json values
     entity.setAttribute("position", currentPosition);
     entity.setAttribute("rotation", currentRotation);
     entity.setAttribute("visible", "true");
@@ -458,31 +467,33 @@ function displayMedia(mediaItem, index, commonValues, currentPosition, currentRo
 
     // Change color on hover
     entity.addEventListener('raycaster-intersected', function () {
+        console.log('Image intersected:', mediaItem.url);
         entity.setAttribute('material', 'color', 'green');  // Change color on hover
-    });
 
-    entity.addEventListener('raycaster-intersected-cleared', function () {
-        entity.setAttribute('material', 'color', 'white');  // Reset color
-    });
-
-    // Add a click event listener to show the CTA modal when the image is clicked
-    entity.addEventListener('click', function () {
+        // Show the modal with the CTA link
         const modal = document.getElementById('cta-modal');
         const ctaLink = document.getElementById('cta-link');
 
-        // Set the link URL if it exists
+        // Set the link URL
         if (mediaItem.link) {
             ctaLink.href = mediaItem.link;
             ctaLink.textContent = mediaItem.link; // Optionally display the link text
         } else {
-            ctaLink.href = '#'; // Fallback if no link is provided
+            ctaLink.href = '#';
             ctaLink.textContent = 'No link available';
         }
 
-        // Show the modal
+        // Display the modal
         modal.style.display = 'flex';
     });
+
+    // Reset color on exit
+    entity.addEventListener('raycaster-intersected-cleared', function () {
+        console.log('Image no longer intersected:', mediaItem.url);
+        entity.setAttribute('material', 'color', 'white');  // Reset color
+    });
 }
+
 
 
 
