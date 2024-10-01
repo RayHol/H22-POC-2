@@ -1,0 +1,1173 @@
+@font-face {
+    font-family: 'Kapra-Condensed';
+    src: url('../assets/fonts/Kapra-Condensed.otf');
+}
+
+@font-face {
+    font-family: 'Caslons Egyptian';
+    src: url('../assets/fonts/Caslons Egyptian Light.otf');
+}
+
+.samsung-fix {
+      transform: scaleX(1.0); 
+  }
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#controls {
+    position: fixed;
+    top: 30px; 
+    left: 3%; /* Adjust as needed */
+    font-family: 'Poppins', sans-serif;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    z-index: 1000; 
+    background: rgba(255, 255, 255, 0.9); 
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Aframe dialoag formating overide*/
+html body .a-dialog,
+html body .a-dialog-content {
+    font-family: 'Caslons Egyptian', sans-serif;
+    border-radius: 10px;
+    font-size: 4px;
+    font-weight: 400;
+    line-height: 19.2px;
+    background-color: #FBD86F;
+    color: black;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 0 10%; 
+    box-sizing: border-box; 
+  
+}
+
+
+html body .a-dialog-allow-button,
+html body .a-dialog-deny-button,
+html body .a-dialog-ok-button {
+    position: fixed;
+    bottom: 12%;
+    left: 10%;
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 20.88px;
+    letter-spacing: 0.03em;
+    padding: 0 16px;
+    background-color: #1B1B1B;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    text-transform: uppercase;
+    width: 80%;
+    max-width: 327px;
+    height: 44px;
+    z-index: 10000;
+}
+
+#orientation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.orientation-popup {
+  background-color: #FBD86F;
+  padding: 40px;
+  border-radius: 10px;
+  font-family: 'Caslons Egyptian', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 19.2px;
+  text-align: center;
+  color: black;
+}
+
+#orientation-overlay .rotate-icon {
+    width: 64px;
+    height: 64px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+.overlay {
+    display: fixed;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    color: white;
+    font-family: 'Kapra-Condensed', sans-serif;
+}
+
+.overlay-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/UI/background2.jpg');
+    background-size: 100%;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-position: 50% 10%;
+    z-index: 99;
+    opacity: 1;
+}
+
+.overlay-content {
+    position: relative;
+    z-index: 100;
+    max-width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+.logo {
+    max-width: 55.08px;
+    max-height: 48.2px;
+    margin-bottom: 5px;
+    margin-top: 20%;
+}
+
+.overlay-content .overlay-header1 {
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 31.75px;
+    font-weight: 400;
+    line-height: 27.63px;
+    letter-spacing: 0.15px;
+    text-align: center;
+    width: 100%;
+    margin: 0px;
+    padding: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.overlay-content .overlay-header1-v2 {
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 27.5px;
+    font-weight: 400;
+    line-height: 27.63px;
+    letter-spacing: 0.15px;
+    text-align: center;
+    width: 100%;
+    margin: 0px;
+    padding: 0;
+    color: #FDB0D4;
+    text-transform: uppercase;
+}
+
+.overlay-line {
+    width: 185px;
+    height: 3.45px;
+    background-color: #FDB0D4;
+    margin: 10px auto;
+}
+
+.overlay-content .overlay-header2 {
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 17.4px;
+    text-align: center;
+    width: 100%;
+    margin: 10px 0;
+    margin-top: 10px;
+    padding: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.overlay-content .overlay-text {
+    position: fixed;
+    bottom: 22.5%;
+    left: 10%;
+    font-family: 'Caslons Egyptian', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19.2px;
+    text-align: center;
+    width: 80%;
+    max-width: 327px;
+    margin: 10px 0;
+    padding: 0;
+    align-items: center;
+    color: #FAFAFA;
+}
+
+.overlay-content button {
+    position: fixed;
+    bottom: 12%;
+    left: 10%;
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 20.88px;
+    letter-spacing: 0.03em;
+    padding: 0 16px;
+    background-color: #FFC734;
+    border: none;
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    text-transform: uppercase;
+    width: 80%;
+    max-width: 327px;
+    height: 44px;
+}
+
+.overlay-content button:hover {
+    background-color:#1B1B1B;
+}
+
+#powered-by-welcome {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+
+#smartify-logo-welcome {
+    width: 75px;
+    height: 34px;
+    margin-left: 20px;
+}
+
+.powered-by-container {
+    position: fixed;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Portrait mode adjustments */
+@media (orientation: portrait) {
+    .overlay {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .overlay-content .overlay-text {
+        bottom: 22.5%;
+        left: 10%;
+        width: 80%;
+        max-width: 327px;
+    }
+
+    .overlay-content button {
+        bottom: 12%;
+        left: 10%;
+        width: 80%;
+        max-width: 327px;
+    }
+  
+     .overlay-header1, .overlay-header1-v2 {
+        text-align: justify;
+        margin: 0 auto;
+    }
+}
+
+/* Landscape mode adjustments */
+@media (orientation: landscape) {
+    .overlay {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .overlay-content {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%; 
+    }
+
+
+    .overlay-left {
+        align-items: center;
+        justify-content: center; 
+        text-align: center;
+        height: 100%; 
+        width: 45%;
+/*         margin: auto 0; */
+    }
+
+    .overlay-right {
+        align-items: flex-end;
+        text-align: center;
+    }
+
+    .overlay-left .logo {
+        max-width: 70px; 
+        max-height: 60px; 
+        margin-top: 20px; 
+    }
+
+    .overlay-left .overlay-header1 {
+        font-size: 40px; 
+        line-height: 40px;
+    }
+
+    .overlay-left .overlay-header1-v2 {
+        font-size: 35px; 
+    }
+
+    .overlay-left .overlay-line {
+        width: 235px; 
+        height: 3px; 
+/*         margin: 10px 0;  */
+    }
+
+    .overlay-left .overlay-header2 {
+        font-size: 25px; 
+    }
+
+.overlay-left .powered-by-container {
+        position: fixed;
+        bottom: 5%;
+        left: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100; 
+
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .overlay-content .overlay-text {
+        font-size: 14px;
+        bottom: 22%;
+        left: auto;
+        right: 8%;
+        width: 40%;
+    }
+
+    .overlay-content button {
+        bottom: 5%;
+        left: auto;
+        right: 8%;
+        width: 45%;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 20.88px;
+        letter-spacing: 0.03em;
+        padding: 0 14px;
+        max-width: 300px;
+        height: 44px;
+    }
+  
+    .overlay-background {
+        -webkit-background-size: 100%; 
+        -moz-background-size: 100%; 
+        -o-background-size: 100%; 
+        background-size: 100%; 
+        -webkit-background-size: cover; 
+        -moz-background-size: cover; 
+        -o-background-size: cover; 
+        background-size: cover; 
+        background-position: 50% 40%; 
+    }
+}
+
+
+/* Full-screen overlay specific styles */
+#full-screen-overlay {
+    background-color: #FBD86F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    color: #1B1B1B;
+    font-family: 'Kapra-Condensed', sans-serif;
+}
+
+#full-screen-overlay .overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    margin-top: 10%;
+}
+
+#full-screen-overlay .fsinstructions-h1 {
+    font-size: 56px;
+    font-weight: 400;
+    margin-bottom: 40px;
+    color: #1B1B1B;
+    text-align: center;
+}
+
+#full-screen-overlay .fsinstructions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+#full-screen-overlay .fsinstruction {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: left;
+}
+
+#full-screen-overlay .fsinstruction .fsinstruction-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+#full-screen-overlay .fsinstruction .fsinstruction-text {
+    font-size: 32px;
+    margin: 0;
+    font-family: 'Kapra-Condensed', sans-serif;
+    color: #1B1B1B;
+    text-align: left;
+}
+
+#full-screen-overlay #got-it-button {
+    background-color: #1B1B1B;
+    color: #FAFAFA;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 20.88px;
+    letter-spacing: 0.03em;
+    padding: 0px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    bottom: 12%;
+    text-transform: uppercase;
+    font-family: 'Kapra-Condensed', sans-serif;
+}
+
+
+#full-screen-overlay #powered-by-fullscreen {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 1.5px;
+    color: #1B1B1B;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+
+#full-screen-overlay #smartify-logo-fullscreen {
+    width: 75px;
+    height: 34px;
+    margin-left: 20px;
+}
+
+#full-screen-overlay .powered-by-container {
+    position: fixed;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* Landscape mode adjustments for Full-screen overlay page */
+@media (orientation: landscape) {
+    #full-screen-overlay {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start; 
+        padding: 20px;
+    }
+
+    #full-screen-overlay .overlay-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        height: 100%; 
+        padding: 10px;
+        margin-top: 0px;
+        max-width: 1200px;
+    }
+
+    #full-screen-overlay .fsinstructions-h1 {
+        font-size: 48px;
+        line-height: 40px;
+        text-align: left;
+        margin-bottom: 5px;
+        margin-top: 2%;
+        margin-left: 10%;
+        width: 45%;
+        align-self: flex-start;
+    }
+
+    #full-screen-overlay .fsinstructions-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: 100%;
+        width: 45%;
+        text-align: left; 
+        margin-left: auto; 
+        margin-top: -50px; 
+        padding-top: 0; 
+        padding-right: 3%;
+    }
+
+    #full-screen-overlay .fsinstruction {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; 
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: left; 
+    }
+
+    #full-screen-overlay .fsinstruction .fsinstruction-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+
+    #full-screen-overlay .fsinstruction .fsinstruction-text {
+        font-size: 32px;
+        margin: 0;
+        font-family: 'Kapra-Condensed', sans-serif;
+        color: #1B1B1B;
+        text-align: left;
+    }
+
+    #full-screen-overlay #got-it-button {
+        background-color: #1B1B1B;
+        color: #FAFAFA;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 20.88px;
+        letter-spacing: 0.03em;
+        padding: 0px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        bottom: 5%;
+        text-transform: uppercase;
+        font-family: 'Kapra-Condensed', sans-serif; 
+        position: fixed;
+        right: 8%;
+    }
+
+
+    #full-screen-overlay .powered-by-container {
+        position: fixed;
+        bottom: 5%;
+        left: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100; 
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    #full-screen-overlay .overlay-background {
+        background-size: cover; 
+        background-position: 50% 10%; 
+    }
+}
+
+/* General styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+.icon-buttons,
+.centered {
+    position: absolute;
+    z-index: 10;
+}
+
+.controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 20;
+}
+
+.controls button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Styles for the change media button */
+button[data-action="change"] {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 60px; /* Adjust size */
+    height: 60px; /* Adjust size */
+}
+
+.change-media-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 10;
+}
+
+.centered {
+    height: 20%;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+
+.instructions {
+    position: fixed;
+    top: 5%;
+    font-size: 24px;
+    color: white;
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.15px;
+    text-align: justify;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+.button-text {
+    position: fixed;
+    bottom: 120px; /* Adjusted to be just above the button */
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0.15px;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.action-button {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+
+
+
+/* Congratulations overlay styles */
+#congratulations-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
+}
+
+#congratulations-overlay .popup-content {
+    background: #FBD86F; 
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 80%;
+    position: relative; 
+}
+
+#congratulations-overlay .congrats-image {
+    width: 96px;
+    height: 96px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#congratulations-overlay .pop-up-header {
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 35.2px;
+    letter-spacing: 0.15px;
+    color: black;
+/*     text-transform: uppercase; */
+    margin-bottom: 20px;
+}
+
+#congratulations-overlay .congrats-text {
+    font-family: 'Caslons Egyptian', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19.2px;
+    color: black;
+    margin-bottom: 20px;
+}
+
+#congratulations-overlay .congrats-text a {
+    color: black;
+    text-decoration: underline;
+}
+
+#congratulations-overlay .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+#congratulations-overlay button {
+    background-color: #1B1B1B;
+    color: #FAFAFA;
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.03em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    width: 95%;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    text-transform: uppercase;
+}
+
+#congratulations-overlay .button-container button {
+    flex: 1;
+    margin: 0 10px;
+}
+
+
+#congratulations-overlay .close-button {
+    position: absolute;
+    top: -20px;
+    right: -15px;
+    width: 32px;
+    height: 32px;
+    background: url('../assets/images/UI/Close.svg') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    content: "";
+}
+
+/* Congrats Landscape-specific styles */
+@media screen and (orientation: landscape) {
+    #congratulations-overlay .popup-content {
+        max-width: 80%; 
+        width: auto;
+        padding: 20px;
+        text-align: left; 
+        transform: translate(5%, 0%);
+    }
+
+    #congratulations-overlay .popup-content img {
+        width: 120px; 
+        height: auto;
+        float: left; 
+        margin-right: 20px;
+    }
+
+    #congratulations-overlay .congrats-text {
+        display: inline-block;
+        vertical-align: top;
+        max-width: calc(100% - 140px); 
+        margin-top: -15px;
+    }
+
+    #congratulations-overlay .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+    }
+
+    #congratulations-overlay .button-container button {
+        flex: 1;
+        margin: 0 10px;
+        max-width: 327px;
+        transform: translate(140px, 0%);
+    }
+}
+
+/* Icon buttons */
+.icon-buttons {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 10px; 
+    left: 50%;
+    padding: 0px 30px;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.icon-button {
+    background: rgba(255, 255, 255, 1);
+    border: none;
+    border-radius: 8px;
+    margin: 0 10px;
+    cursor: pointer;
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    min-height: 36px;
+    text-align: center;
+}
+
+.help-button {
+    background: rgba(255, 255, 255, 1);
+    border: none;
+    border-radius: 8px;
+    line-height: 1;
+    margin: 0 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.button-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+/* Map overlay styles */
+#map-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
+}
+
+#map-overlay .overlay-background {
+    width: 100%;
+    z-index: 99;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+#map-overlay .overlay-content {
+    position: relative;
+    z-index: 100;
+    max-width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+#close-map-overlay {
+    position: absolute;
+    top: -5px;
+    left: 15px;
+    width: 32px;
+    height: 32px;
+    background: url('../assets/images/UI/Close.svg') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    content: "";
+}
+
+
+.map-image {
+    width: 90%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Congrats Landscape-specific styles */
+@media screen and (orientation: landscape) {
+  .map-image {
+    width: 40%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+  #close-map-overlay {
+    position: absolute;
+    top: -5px;
+    left: 28%;
+  }
+  
+}
+
+/* Help overlay styles */
+#help-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
+}
+
+#help-overlay .overlay-content {
+    background: rgba(0, 0, 0, 0.8); 
+    border-radius: 0;
+    padding: 20px;
+    text-align: center;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box; 
+}
+
+#help-overlay .help-instruction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#help-overlay .help-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+}
+
+#help-overlay .help-text h2,
+#help-overlay .help-instruction h2 {
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 56px;
+    letter-spacing: 0.15px;
+    margin: 0;
+}
+
+#help-overlay .help-text p,
+#help-overlay .help-instruction p {
+    font-family: 'Caslons Egyptian', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    margin: 0;
+    padding-top: 8px;
+    text-align: center;
+}
+
+#close-help-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: url('../assets/images/UI/Close.svg') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+#close-help-overlay:hover {
+    background-color: #333333;
+    color: white;
+}
+
+/* Landscape mode adjustments for help overlay */
+@media (orientation: landscape) {
+    #help-overlay .overlay-content {
+        flex-direction: row; 
+        justify-content: center; 
+        align-items: center; 
+        padding: 20px;
+        padding-left: 40px; 
+        padding-right: 40px; 
+        text-align: center;
+        height: 100%; 
+        width: 100%; 
+        box-sizing: border-box; 
+    }
+
+    #help-overlay .help-instruction {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0; 
+        margin-left: 20px;
+        margin-right: 20px;
+        flex: 1; 
+    }
+
+    #help-overlay .help-icon {
+        width: 36px;
+        height: 36px; 
+    }
+
+    #help-overlay .help-text {
+        margin-top: 20px;
+        width: 100%; 
+        white-space: normal; 
+    }
+
+    #help-overlay .help-text h2,
+    #help-overlay .help-instruction h2 {
+        font-size: 24px; 
+        line-height: 32px; 
+    }
+
+    #help-overlay .help-text p,
+    #help-overlay .help-instruction p {
+        font-size: 14px; 
+        line-height: 20px; 
+        padding: 0 10px; 
+    }
+}
+.loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(251, 216, 111, 1);
+    font-family: 'Kapra-Condensed', sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.03em;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #000000;
+}
+
+.loading-overlay.show {
+    display: flex;
+}
+

@@ -1,0 +1,115 @@
+{
+    "location1": {
+        "common": {
+            "scale": "10 6 1",
+            "rotation": "0 0 0",
+            "fixedAngleDegrees": -28.27,
+            "initialY": -13.51,
+            "initialZ": -88.07,
+            "latitude": 51.50554318648311,
+            "longitude": -0.0753457733438346
+        },
+        "media": [
+            {
+                "type": "image",
+                "url": "./assets/images/TB-Iconx4.png",
+                "frameUrl": "./assets/images/TB-Icon.png",
+                "info": "Tower Bridge",
+                "audioUrl": "",
+                "link": "https://app.smartify.org"
+            },
+            {
+                "type": "video",
+                "url": "https://rayhol.github.io/TB_Videos/Videos3/0.mp4",
+                "frameUrl": "./assets/frames/frame2.png",
+                "info": "Tower Bridge",
+                "audioUrl": "https://rayhol.github.io/TB_Videos/Audio3/01.mp3"
+            }
+        ]
+    },
+    "location2": {
+        "common": {
+            "scale": "10 6 1",
+            "rotation": "0 0 0",
+            "fixedAngleDegrees": -60,
+            "initialY": 0,
+            "initialZ": -50.02,
+            "latitude": 51.50465357010781,
+            "longitude": -0.08653218868786766
+        },
+        "media": [
+            {
+                "type": "image",
+                "url": "./assets/images/Shard-Iconx4.png",
+                "frameUrl": "./assets/images/Shard-Icon.png",
+                "info": "The Shard",
+                "audioUrl": "",
+                "link": "https://app.smartify.org"
+            },
+            {
+                "type": "video",
+                "url": "https://rayhol.github.io/TB_Videos/Videos3/02.mp4",
+                "frameUrl": "./assets/frames/frame2.png",
+                "info": "The Shard",
+                "audioUrl": "https://rayhol.github.io/TB_Videos/Audio3/02.mp3"
+            }
+        ]
+    },
+    "location3": {
+        "common": {
+            "scale": "10 6 1",
+            "rotation": "0 0 0",
+            "fixedAngleDegrees": -103.65,
+            "initialY": -7.30,
+            "initialZ": 23.61,
+            "latitude": 51.503294961288,
+            "longitude": -0.11952511514421274
+        },
+        "media": [
+            {
+                "type": "image",
+                "url": "./assets/images/Eye-Iconx4.png",
+                "frameUrl": "./assets/images/Eye-Icon.png",
+                "info": "London Eye",
+                "audioUrl": "",
+                "link": "https://app.smartify.org"
+            },
+            {
+                "type": "video",
+                "url": "https://rayhol.github.io/TB_Videos/Videos3/03.mp4",
+                "frameUrl": "./assets/frames/frame2.png",
+                "info": "London Eye",
+                "audioUrl": "https://rayhol.github.io/TB_Videos/Audio3/03.mp3"
+            }
+        ]
+    },
+    "location4": {
+        "common": {
+            "scale": "10 6 1",
+            "rotation": "0 0 0",
+            "fixedAngleDegrees": -126.54,
+            "initialY": -15,
+            "initialZ": 60,
+            "latitude": 51.514285760840664,
+            "longitude": -0.09831423887059677
+        },
+        "media": [
+            {
+                "type": "image",
+                "url": "./assets/images/Pauls-Iconx4.png",
+                "frameUrl": "./assets/images/Pauls-Icon.png",
+                "info": "St Pauls",
+                "audioUrl": "",
+                "link": "https://app.smartify.org"
+            },
+            {
+                "type": "video",
+                "url": "https://rayhol.github.io/TB_Videos/Videos3/04.mp4",
+                "frameUrl": "./assets/frames/frame2.png",
+                "info": "St Pauls",
+                "audioUrl": "https://rayhol.github.io/TB_Videos/Audio3/04.mp3"
+            }
+        ]
+    
+    }
+}
