@@ -1,11 +1,11 @@
 {
     "location1": {
         "common": {
-            "scale": "10 6 1",
+            "scale": "30 15 1",
             "rotation": "0 0 0",
-            "fixedAngleDegrees": -28.27,
-            "initialY": -13.51,
-            "initialZ": -88.07,
+            "fixedAngleDegrees": 0,
+            "initialY": 0,
+            "initialZ": 0,
             "latitude": 51.50554318648311,
             "longitude": -0.0753457733438346
         },
@@ -29,13 +29,13 @@
     },
     "location2": {
         "common": {
-            "scale": "10 6 1",
+            "scale": "30 15 1",
             "rotation": "0 0 0",
-            "fixedAngleDegrees": -60,
+            "fixedAngleDegrees": 0,
             "initialY": 0,
-            "initialZ": -50.02,
+            "initialZ": 0,
             "latitude": 51.50465357010781,
-            "longitude": -0.08653218868786766
+            "longitude": -0.08653218868786766 
         },
         "media": [
             {
@@ -57,11 +57,11 @@
     },
     "location3": {
         "common": {
-            "scale": "10 6 1",
+            "scale": "30 15 1",
             "rotation": "0 0 0",
-            "fixedAngleDegrees": -103.65,
-            "initialY": -7.30,
-            "initialZ": 23.61,
+            "fixedAngleDegrees": 0,
+            "initialY": 0,
+            "initialZ": 0,
             "latitude": 51.503294961288,
             "longitude": -0.11952511514421274
         },
@@ -85,11 +85,11 @@
     },
     "location4": {
         "common": {
-            "scale": "10 6 1",
+            "scale": "30 15 1",
             "rotation": "0 0 0",
-            "fixedAngleDegrees": -126.54,
-            "initialY": -15,
-            "initialZ": 60,
+            "fixedAngleDegrees": 0,
+            "initialY": 0,
+            "initialZ": 0,
             "latitude": 51.514285760840664,
             "longitude": -0.09831423887059677
         },

@@ -17,6 +17,12 @@ let currentLocationIndex = 0;
 let locations = []; // This will be filled with the keys from mediaConfig.json
 let mediaArray = []; // Current media array for the location
 
+// User's current geographical location
+const userCoordinates = {
+    latitude: 51.514610192480845,
+    longitude: -0.08297110217948206
+};
+
 const minZoom = 10; // Minimum distance from the user
 const maxZoom = 100; // Maximum distance from the user
 const minY = -15; // Set minimum Y value
@@ -43,51 +49,6 @@ let isFirstLoad = true; // Global flag to check if it's the first load
 let currentFixedAngleDisplay;
 let currentYPositionDisplay;
 let currentZDepthDisplay;
-
-// Set the origin coordinates globally for fixed location
-const originLat = 51.514610192480845; // Fixed latitude
-const originLon = -0.08297110217948206; // Fixed longitude
-
-// Functions to calculate bearing, distance, and coordinates
-function calculateBearing(lat1, lon1, lat2, lon2) {
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const y = Math.sin(dLon) * Math.cos(lat2 * Math.PI / 180);
-    const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
-              Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos(dLon);
-    const bearing = Math.atan2(y, x) * 180 / Math.PI;
-    return (bearing + 360) % 360;
-}
-
-function haversineDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Earth's radius in km
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in km
-    return distance;
-}
-
-function toCartesianCoordinates(distance, bearing) {
-    const bearingRad = bearing * Math.PI / 180;
-    const x = distance * Math.sin(bearingRad);
-    const z = distance * Math.cos(bearingRad);
-    return { x, z };
-}
-
-// Function to place media based on lat/lon
-function placeMediaAtLocation(mediaItem, commonValues, targetLat, targetLon) {
-    const distance = haversineDistance(originLat, originLon, targetLat, targetLon); // Calculate distance from origin
-    const bearing = calculateBearing(originLat, originLon, targetLat, targetLon); // Calculate bearing from origin
-    const { x, z } = toCartesianCoordinates(distance, bearing); // Convert to Cartesian coordinates
-
-    const position = { x, y: commonValues.initialY || 0, z }; // Keep Y axis from commonValues
-    const rotation = { x: 0, y: bearing, z: 0 }; // Use bearing for Y rotation
-
-    displayMedia(mediaItem, modelIndex, commonValues, position, rotation); // Call displayMedia with calculated position
-}
 
 function saveAngle(location, angle) {
     const savedAngles = JSON.parse(localStorage.getItem('savedAngles')) || {};
@@ -127,6 +88,39 @@ function refreshMediaPosition() {
 
         updateCurrentValues();
     }
+}
+
+// Haversine formula for calculating distance between two coordinates
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in km
+    return distance;
+}
+
+// Function to convert bearing and distance into Cartesian coordinates
+function toCartesianCoordinates(distance, bearing) {
+    const bearingRad = bearing * Math.PI / 180;
+    // Flip the x-coordinate to make the image positions consistent
+    const x = -distance * Math.sin(bearingRad); // Flip x
+    const z = distance * Math.cos(bearingRad);  // Keep z as is
+    return { x, z };
+}
+
+
+// Function to calculate the bearing
+function calculateBearing(lat1, lon1, lat2, lon2) {
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const y = Math.sin(dLon) * Math.cos(lat2 * Math.PI / 180);
+    const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
+              Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos(dLon);
+    const bearing = Math.atan2(y, x) * 180 / Math.PI;
+    return (bearing + 360) % 360;
 }
 
 function updateLookImages() {
@@ -190,14 +184,7 @@ function loadLocationMedia() {
             initialMediaState.position = { x: -currentZoom * Math.sin(radians), y: commonValues.initialY, z: commonValues.initialZ };
             initialMediaState.rotation = { x: 0, y: fixedAngleDegrees, z: 0 };
 
-            // Place media items using lat/lon values
-            mediaArray.forEach((mediaItem, index) => {
-                if (mediaItem.lat && mediaItem.lon) {
-                    placeMediaAtLocation(mediaItem, commonValues, mediaItem.lat, mediaItem.lon);
-                } else {
-                    displayMedia(mediaItem, index, commonValues, initialMediaState.position, initialMediaState.rotation);
-                }
-            });
+            initializeMedia(mediaArray, commonValues);
         })
         .catch((error) => console.error("Error loading media config:", error));
 }
@@ -211,44 +198,43 @@ function navigateToLocation(locationId) {
     loadLocationMedia();
 }
 
+// Initialize AR
 function initializeAR() {
     fetch("./Scripts/mediaConfig.json")
         .then((response) => response.json())
         .then((data) => {
-            // Get the locations from the mediaConfig.json file
             locations = Object.keys(data); // Get all location keys (location1, location2, etc.)
-
-            // Loop through each location to load its media
             locations.forEach((locationId) => {
                 const locationData = data[locationId];
                 const commonValues = locationData.common;
-                const mediaArray = locationData.media;
+                const targetLat = commonValues.latitude;
+                const targetLon = commonValues.longitude;
 
-                // For each location, use the provided fixedAngleDegrees, initialY, and initialZ
-                const fixedAngleDegrees = commonValues.fixedAngleDegrees || 0;
-                const currentY = commonValues.initialY || 0;
-                const currentZoom = Math.abs(commonValues.initialZ) || 25;
+                // Loop through each media item and position it based on latitude and longitude
+                locationData.media.forEach((mediaItem) => {
+                    // Load only image type media
+                    if (mediaItem.type === "image") {
+                        // Calculate distance and bearing
+                        const distance = haversineDistance(userCoordinates.latitude, userCoordinates.longitude, targetLat, targetLon);
+                        const bearing = calculateBearing(userCoordinates.latitude, userCoordinates.longitude, targetLat, targetLon);
+                        const { x, z } = toCartesianCoordinates(distance * 100, bearing); // Convert km to meters if needed
 
-                // Calculate the position based on the fixedAngleDegrees and currentZoom (initialZ)
-                const radians = (fixedAngleDegrees * Math.PI) / 180;
-                const position = {
-                    x: -currentZoom * Math.sin(radians),
-                    y: currentY,
-                    z: -currentZoom * Math.cos(radians)
-                };
+                        // Position the media based on calculated coordinates
+                        const position = { x: x, y: commonValues.initialY || 0, z: z };
+                        const rotation = { x: 0, y: commonValues.fixedAngleDegrees || 0, z: 0 };
 
-                const rotation = { x: 0, y: fixedAngleDegrees, z: 0 };
-
-                // Loop through each media item and only display 'image' media
-                mediaArray
-                    .filter(mediaItem => mediaItem.type === "image") // Filter only image type media
-                    .forEach((mediaItem, index) => {
-                        displayMedia(mediaItem, index, commonValues, position, rotation);
-                    });
+                        console.log(`Placing ${mediaItem.url} at position:`, position); // Log for debugging
+                        displayMedia(mediaItem, 0, commonValues, position, rotation); // Use 0 for index as you are not tracking individual media
+                    }
+                });
             });
         })
         .catch((error) => console.error("Error loading media config:", error));
 }
+
+
+
+
 
 function updateFixedAngleDegrees(newAngle) {
     fixedAngleDegrees = newAngle;
@@ -356,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function() {
         closeHelpOverlayButton.addEventListener("click", () => {
             const helpOverlay = document.getElementById("help-overlay");
             if (helpOverlay) {
-                helpOverlay.style.display = "none";
+                helpOverlay.style.display = 'none';
             }
         });
     }
@@ -403,7 +389,6 @@ function removeAllMedia() {
 
     mediaEntity = null;
     videoEntity = null;
-
 }
 
 function checkOrientation() {
@@ -447,7 +432,8 @@ function initializeMedia(mediaArray, commonValues) {
     });
 }
 
-
+// Function to display media
+// Function to display media
 function displayMedia(mediaItem, index, commonValues, currentPosition, currentRotation) {
     let scene = document.querySelector("a-scene");
 
@@ -456,15 +442,13 @@ function displayMedia(mediaItem, index, commonValues, currentPosition, currentRo
 
     // Set the media URL for the image
     entity.setAttribute("src", mediaItem.url);
+    entity.classList.add('clickable'); // Make it clickable
 
-    // Add the 'clickable' class to make the image detectable by the raycaster
-    entity.classList.add('clickable');
-
-    // Set the scale exactly as defined in the mediaConfig.json
+    // Set the scale as defined in mediaConfig.json
     let scaleComponents = commonValues.scale.split(' ').map(Number);
     entity.setAttribute("scale", `${scaleComponents[0]} ${scaleComponents[1]} ${scaleComponents[2]}`);
 
-    // Set the position and rotation of the entity based on the mediaConfig.json values
+    // Set the position and rotation of the entity
     entity.setAttribute("position", currentPosition);
     entity.setAttribute("rotation", currentRotation);
     entity.setAttribute("visible", "true");
@@ -472,31 +456,61 @@ function displayMedia(mediaItem, index, commonValues, currentPosition, currentRo
     // Add the entity to the scene
     scene.appendChild(entity);
 
-    // Add a raycaster event to show the CTA modal when the image is hovered (intersected)
+    // Change color on hover
     entity.addEventListener('raycaster-intersected', function () {
-        console.log('Image intersected:', mediaItem.url);
-        entity.setAttribute('material', 'color', 'green');  // Change color on hover/tap
-
-        // Show the modal with the CTA link
-        const modal = document.getElementById('cta-modal');
-        const ctaLink = document.getElementById('cta-link');
-
-        // Set the link URL
-        if (mediaItem.link) {
-            ctaLink.href = mediaItem.link;
-        } else {
-            ctaLink.href = '#';
-        }
-
-        // Display the modal
-        modal.style.display = 'flex';
+        entity.setAttribute('material', 'color', 'green');  // Change color on hover
     });
 
     entity.addEventListener('raycaster-intersected-cleared', function () {
-        console.log('Image no longer intersected:', mediaItem.url);
         entity.setAttribute('material', 'color', 'white');  // Reset color
     });
+
+    // Add a click event listener to show the CTA modal when the image is clicked
+    entity.addEventListener('click', function () {
+        const modal = document.getElementById('cta-modal');
+        const ctaLink = document.getElementById('cta-link');
+
+        // Set the link URL if it exists
+        if (mediaItem.link) {
+            ctaLink.href = mediaItem.link;
+            ctaLink.textContent = mediaItem.link; // Optionally display the link text
+        } else {
+            ctaLink.href = '#'; // Fallback if no link is provided
+            ctaLink.textContent = 'No link available';
+        }
+
+        // Show the modal
+        modal.style.display = 'flex';
+    });
 }
+
+
+
+
+function updateImagesFacingCamera() {
+    const images = document.querySelectorAll('a-image');
+    const camera = document.getElementById('camera');
+
+    images.forEach(image => {
+        const imagePosition = image.getAttribute('position');
+        const cameraPosition = camera.getAttribute('position');
+
+        // Calculate the direction vector from the image to the camera
+        const direction = {
+            x: cameraPosition.x - imagePosition.x,
+            y: cameraPosition.y - imagePosition.y,
+            z: cameraPosition.z - imagePosition.z
+        };
+
+        // Normalize the direction vector and convert it to rotation
+        const rotation = Math.atan2(direction.x, direction.z) * (180 / Math.PI);
+        image.setAttribute('rotation', { x: 0, y: rotation, z: 0 });
+    });
+}
+
+// Call this function in your animation loop or on a tick event
+setInterval(updateImagesFacingCamera, 100); // Update every 100ms
+
 
 // Close modal when clicking on the 'X' button
 document.getElementById('close-cta-modal').addEventListener('click', function() {
@@ -510,7 +524,6 @@ window.addEventListener('click', function(event) {
         modal.style.display = 'none';
     }
 });
-
 
 function fadeOutElement(element) {
     element.setAttribute("animation", {
@@ -659,7 +672,6 @@ document.addEventListener("touchmove", function (e) {
                 lookImage.setAttribute("position", { x: lookX, y: 0, z: lookZ });
                 lookImage.setAttribute("rotation", { x: 0, y: angle + fixedAngleDegrees, z: 0 });
             });
-
         } else if (dragAxis === "y") {
             const adjustedDragSpeedY = dragSpeedY * (currentZoom / 45);
             const newY = position.y - deltaY * adjustedDragSpeedY;
@@ -696,7 +708,8 @@ function updateZoom(currentPinchDistance) {
     if (mediaEntity) {
         const directionX = -Math.sin((fixedAngleDegrees * Math.PI) / 180);
         const directionZ = -Math.cos((fixedAngleDegrees * Math.PI) / 180);
-        let distanceChange = -(currentPinchDistance - initialPinchDistance) * zoomSpeed;
+        let distanceChange =
+            -(currentPinchDistance - initialPinchDistance) * zoomSpeed;
         let newZoom = currentZoom + distanceChange;
 
         newZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
