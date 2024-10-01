@@ -178,7 +178,6 @@
 </div>
 
 <!-- Modal Styles -->
-<!-- Modal Styles -->
 <style>
 .modal {
     display: none; /* Hidden by default */
@@ -238,7 +237,7 @@
     <a-scene id="ar-scene" vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;" style="display:block;">
         <a-light type="ambient" color="#ffffff"></a-light>
         <a-light type="directional" color="#ffffff" position="-2 4 5"></a-light>
-        <a-entity camera rotation-reader look-controls="touchEnabled: false" raycaster="objects: .clickable" position="0 1.6 0"></a-entity>
+        <a-entity camera rotation-reader look-controls="touchEnabled: false" raycaster="objects: .clickable" position="0 1.6 0" id="camera"></a-entity>
       
     </a-scene>
   
