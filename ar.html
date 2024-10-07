@@ -168,67 +168,87 @@
         </div>
     </div> -->
   
-  <!-- Modal for CTA -->
+ <!-- Modal for CTA -->
 <div id="cta-modal" class="modal" style="display: none;">
     <div class="modal-content">
-        <span id="close-cta-modal" class="close">&times;</span>
-        <p id="cta-text">Explore more at:</p>
-        <a id="cta-link" href="#" target="_blank">Visit Site</a>
+        <div class="modal-header">
+            <div class="drag-bar"></div>
+            <img id="close-cta-modal" class="close-icon" src="../assets/images/UI/Close.svg" alt="Close" />
+        </div>
+        <iframe id="cta-iframe" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 </div>
 
-<!-- Modal Styles -->
+
+
+
+
+
+/* Modal Styles */
 <style>
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1000; /* Sit on top */
     left: 0;
-    bottom: 10%; /* Position the modal 10% from the bottom */
+    bottom: 0; /* Start from the bottom */
     width: 100%; /* Full width */
-    justify-content: center;
-    align-items: flex-end; /* Align to the bottom */
+    height: 100%; /* Full height */
+    background-color: transparent; /* Set to transparent */
+    transform: translateY(100%); /* Start off-screen */
+    transition: transform 0.3s ease; /* Smooth slide animation */
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    text-align: center;
-    border-radius: 8px;
-    margin: 0 10%; /* Center horizontally with margin */
-    margin-bottom: 20px; /* Add spacing from the bottom */
+    position: absolute; /* Absolute positioning within modal */
+    left: 0;
+    right: 0;
+    bottom: 0; /* Align to the bottom of the modal */
+    height: 30%; /* Initially fill 20% of the modal */
+    background-color: #fff; /* White background for content */
+    padding: 5px;
+    overflow: hidden; /* Hide overflow */
+    transition: height 0.3s ease; /* Smooth transition for height */
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.modal-header {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space between the items */
+    padding: 10px; /* Add padding */
+}
+  
+.drag-bar {
+    background-color: darkgray; /* Set the color of the drag bar */
+    height: 4px; /* Adjust the height of the drag bar */
+    width: 40%; /* Adjust the width of the drag bar */
+    border-radius: 2px; /* Rounded corners */
+    margin: 0 auto; /* Center the drag bar */
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+/* Animation for modal appearance */
+@keyframes slide-in {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
-#cta-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
+.slide-in {
+    animation: slide-in 0.3s forwards; /* Trigger slide-in animation */
 }
 
-#cta-link:hover {
-    background-color: #0056b3;
+  .close-icon {
+    width: 36px; /* Adjust size as needed */
+    height: 36px; /* Adjust size as needed */
+    cursor: pointer; /* Change cursor to pointer on hover */
 }
+
+
 </style>
+
 
 
     <!--AFrame and ARjs scene -->  
@@ -260,11 +280,11 @@
             <img src="./assets/images/UI/help-icon.svg" alt="help button" class="button-icon"> Help
         </button>
     </div>
-    <div class="centered">
+<!--     <div class="centered">
         <button data-action="change">
           <img src="./assets/images/UI/Button.svg" alt="Change Media Button" class="change-media-icon">      
         </button>
-    </div>
+    </div> -->
     
 
     <script src="./Scripts/ar.js"></script>
